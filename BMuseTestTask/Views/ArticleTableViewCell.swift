@@ -16,12 +16,27 @@ class ArticleTableViewCell: UITableViewCell {
     @IBOutlet weak var articlePublishedDateLabel: UILabel!
     
     func configureCell(article: Article) {
-        //articlePhoto.image =
         articleTitleLabel.text = article.title
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
         guard let date = dateFormatter.date(from: article.data) else { return }
         articlePublishedDateLabel.text = "\(date)"
+        
+        if !article.multimediaStandart.url.isEmpty {
+            downloadImageByUrl(article.multimediaStandart.url)
+        }
+    }
+    
+    private func downloadImageByUrl(_ standartFormatUrl: String) {
+        URLSession.shared.dataTask(with: NSURL(string: standartFormatUrl)! as URL, completionHandler: { (data, response, error) -> Void in
+            if error != nil {
+                print(error ?? "error")
+                return
+            }
+            DispatchQueue.main.async(execute: { [weak self] () -> Void in
+                self?.articlePhoto.image = UIImage(data: data!)
+            })
+        }).resume()
     }
 }

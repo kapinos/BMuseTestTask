@@ -9,16 +9,19 @@
 import UIKit
 
 class Multimedia {
-    var url  = ""
+    var url = ""
     var format = ""
     
     init(dict: Dictionary<String, Any>) {
-        if let url = dict["url"] as? String {
-            self.url = url
-        }
+        guard let url =  dict["url"] as? String else { return }
+        self.url = url
         
-        if let format = dict["format"] as? String {
-            self.format = format
-        }
+        guard let format = dict["format"] as? String else  { return }
+        self.format = format
+    }
+    
+    init() {
+        url = ""
+        format = ""
     }
 }

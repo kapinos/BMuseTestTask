@@ -12,6 +12,7 @@ class Article: NSObject {
     
     private var _title: String!
     private var _abstract: String!
+    private var _byline: String!
     private var _data: String!
     private var _multimediaStandart: Multimedia!
     private var _multimediaThreeByTwo: Multimedia!
@@ -30,6 +31,13 @@ class Article: NSObject {
         return _abstract
     }
     
+    var byline: String {
+        if _byline == nil {
+            _byline = ""
+        }
+        return _byline
+    }
+    
     var data: String {
         if _data == nil {
             _data = ""
@@ -39,16 +47,14 @@ class Article: NSObject {
     
     var multimediaStandart: Multimedia {
         if _multimediaStandart == nil {
-            _multimediaStandart.url = ""
-            _multimediaStandart.format = ""
+            _multimediaStandart = Multimedia()
         }
         return _multimediaStandart
     }
     
     var multimediaThreeByTwo: Multimedia {
         if _multimediaThreeByTwo == nil {
-            _multimediaThreeByTwo.url = ""
-            _multimediaThreeByTwo.format = ""
+            _multimediaThreeByTwo = Multimedia()
         }
         return _multimediaThreeByTwo
     }
@@ -67,10 +73,22 @@ class Article: NSObject {
         if let data = dict["published_date"] as? String {
             self._data = data
         }
-
-//        if let multimedia = dict["multimedia"] as? [Dictionary<String, Any>] {
-//            if let multimediaStandart = dict[""]
-//        }
         
+        if let byline = dict["byline"] as? String {
+            self._byline = byline
+        }
+
+        guard let multimediaArray = dict["multimedia"] as? [Dictionary<String, Any>] else { return }
+        if multimediaArray.isEmpty { return }
+        
+        for multimediaData in multimediaArray {
+            let multimedia = Multimedia(dict: multimediaData)
+            
+            if multimedia.format == "Standard Thumbnail" {
+                self._multimediaStandart = multimedia
+            } else if multimedia.format == "mediumThreeByTwo210" {
+                self._multimediaThreeByTwo = multimedia
+            }
+        }
     }
 }

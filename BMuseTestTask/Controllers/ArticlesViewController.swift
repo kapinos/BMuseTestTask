@@ -39,9 +39,19 @@ class ArticlesViewController: UIViewController {
     }
 }
 
+// MARK: -Navigation
+extension ArticlesViewController {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "ArticleDetailsSegue" {
+            if let detailsVC = segue.destination as? ArticleDetailsViewController {
+                guard let article = sender as? Article else  { return }
+                detailsVC.article = article
+            }
+        }
+    }
+}
 
 // MARK: -UITableViewDataSource
-
 extension ArticlesViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -57,9 +67,13 @@ extension ArticlesViewController: UITableViewDataSource {
 
 
 // MARK: -UITableVIewDelegate
-
 extension ArticlesViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 60.0
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let article = NewsAPI.service.articles[indexPath.row]
+        performSegue(withIdentifier: "ArticleDetailsSegue", sender: article)
     }
 }

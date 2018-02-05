@@ -20,7 +20,6 @@ class ArticleDetailsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         showArticle()
     }
 }
@@ -28,7 +27,9 @@ class ArticleDetailsViewController: UIViewController {
 // MARK: - User Actions
 extension ArticleDetailsViewController {
     @IBAction func buttonOpenTapped(_ sender: UIButton) {
-        
+        guard let urlString = article?.url,
+            let url = URL(string: urlString) else { return }
+        UIApplication.shared.open(url, options: [:])
     }
 }
 

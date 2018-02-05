@@ -15,21 +15,14 @@ class NewsAPI: NSObject {
     private static let basePath = "http://api.nytimes.com/svc/topstories/v2"
     private static let key = "28cb01bb663c4efe9e5f18259c02f998"
     
-    // FIXME: - create methods for get/set category
-    static var category = "home"
-    
-    private func path() -> URL {
-        return URL(string: "\(NewsAPI.basePath)/\(NewsAPI.category).json?api-key=\(NewsAPI.key)")!
-    }
-
     @objc dynamic private(set) var articles: [Article] = []
 
     func resetArticles() {
         articles = []
     }
     
-    func fetchArticles() {
-        let url = path()
+    func fetchArticles(by category: String) {
+        let url = URL(string: "\(NewsAPI.basePath)/\(category).json?api-key=\(NewsAPI.key)")!
         let task = URLSession.shared.dataTask(with: url, completionHandler: { (data, response, error) in
             guard let data = data, error == nil else { return }
             do {
@@ -37,7 +30,6 @@ class NewsAPI: NSObject {
                 //print(str)
                 if let dict = str as? Dictionary<String, Any> {
                     if let list = dict["results"] as? [Dictionary<String, Any>] {
-                        //self.artArray.removeAll()
                         var articlesFromData: [Article] = []
                         for object in list {
                             let article = Article(dict: object)

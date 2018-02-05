@@ -17,6 +17,7 @@ class ArticlesViewController: UIViewController {
     // MARK: - Properties
     private var token: NSKeyValueObservation?
 
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -24,12 +25,8 @@ class ArticlesViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        token = NewsAPI.service.observe(\NewsAPI.articles) { _, _ in
-            DispatchQueue.main.async {
-                self.articlesTableView.reloadData()
-            }
-        }
-        NewsAPI.service.fetchArticles()
+        let category = getCategory(by: categoriesSegmentedControl.selectedSegmentIndex)
+        downloadAndShowArticles(by: category)
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -39,15 +36,47 @@ class ArticlesViewController: UIViewController {
     }
 }
 
-// MARK: -Navigation
+// MARK: - Navigation
 extension ArticlesViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "ArticleDetailsSegue" {
-            if let detailsVC = segue.destination as? ArticleDetailsViewController {
-                guard let article = sender as? Article else  { return }
-                detailsVC.article = article
+            guard let detailsVC = segue.destination as? ArticleDetailsViewController else { return }
+            guard let article = sender as? Article else  { return }
+            detailsVC.article = article
+        }
+    }
+}
+
+// MARK: - Private
+private extension ArticlesViewController {
+    func downloadAndShowArticles(by category: String) {
+        token = NewsAPI.service.observe(\NewsAPI.articles) { _, _ in
+            DispatchQueue.main.async {
+                self.articlesTableView.reloadData()
             }
         }
+        NewsAPI.service.fetchArticles(by: category)
+    }
+    
+    func getCategory(by index: Int) -> String {
+        var category = ""
+        switch index {
+        case 0: category = "home"
+        case 1: category = "opinion"
+        case 2: category = "world"
+        case 3: category = "science"
+        case 4: category = "politics"
+        default: category = "home"
+        }
+        return category
+    }
+}
+
+// MARK: - User Actions
+extension ArticlesViewController {
+    @IBAction func categoriesSelected(_ sender: UISegmentedControl) {
+        guard let selectedCategory = sender.titleForSegment(at: sender.selectedSegmentIndex) else { return }
+        downloadAndShowArticles(by: selectedCategory)
     }
 }
 

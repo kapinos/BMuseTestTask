@@ -43,9 +43,15 @@
                                             <constraint firstAttribute="height" constant="35" id="DYq-9b-8J3"/>
                                         </constraints>
                                         <segments>
-                                            <segment title="First"/>
-                                            <segment title="Second"/>
+                                            <segment title="home"/>
+                                            <segment title="opinion"/>
+                                            <segment title="world"/>
+                                            <segment title="science"/>
+                                            <segment title="politics"/>
                                         </segments>
+                                        <connections>
+                                            <action selector="categoriesSelected:" destination="BYZ-38-t0r" eventType="valueChanged" id="rkH-h4-s3i"/>
+                                        </connections>
                                     </segmentedControl>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="k4U-oL-gVt">
                                         <rect key="frame" x="0.0" y="125" width="365" height="473"/>

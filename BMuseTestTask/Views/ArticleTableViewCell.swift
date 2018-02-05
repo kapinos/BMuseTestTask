@@ -27,8 +27,10 @@ class ArticleTableViewCell: UITableViewCell {
             downloadImageByUrl(article.multimediaStandart.url)
         }
     }
-    
-    private func downloadImageByUrl(_ standartFormatUrl: String) {
+}
+
+private extension ArticleTableViewCell {
+    func downloadImageByUrl(_ standartFormatUrl: String) {
         URLSession.shared.dataTask(with: NSURL(string: standartFormatUrl)! as URL, completionHandler: { (data, response, error) -> Void in
             if error != nil {
                 print(error ?? "error")

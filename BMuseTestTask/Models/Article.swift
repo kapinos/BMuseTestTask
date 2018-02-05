@@ -14,6 +14,7 @@ class Article: NSObject {
     private var _abstract: String!
     private var _byline: String!
     private var _data: String!
+    private var _url: String!
     private var _multimediaStandart: Multimedia!
     private var _multimediaThreeByTwo: Multimedia!
     
@@ -43,6 +44,13 @@ class Article: NSObject {
             _data = ""
         }
         return _data
+    }
+    
+    var url: String {
+        if _url == nil {
+            _url = ""
+        }
+        return _url
     }
     
     var multimediaStandart: Multimedia {
@@ -76,6 +84,10 @@ class Article: NSObject {
         
         if let byline = dict["byline"] as? String {
             self._byline = byline
+        }
+        
+        if let url = dict["url"] as? String {
+            self._url = url
         }
 
         guard let multimediaArray = dict["multimedia"] as? [Dictionary<String, Any>] else { return }

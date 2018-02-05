@@ -12,8 +12,9 @@ class Article: NSObject {
     
     private var _title: String!
     private var _abstract: String!
-    private var _date: Date!
     private var _data: String!
+    private var _multimediaStandart: Multimedia!
+    private var _multimediaThreeByTwo: Multimedia!
     
     var title: String {
         if _title == nil {
@@ -36,12 +37,22 @@ class Article: NSObject {
         return _data
     }
     
-    var date: Date {
-        if _date == nil {
-            _date = Date()
+    var multimediaStandart: Multimedia {
+        if _multimediaStandart == nil {
+            _multimediaStandart.url = ""
+            _multimediaStandart.format = ""
         }
-        return _date
+        return _multimediaStandart
     }
+    
+    var multimediaThreeByTwo: Multimedia {
+        if _multimediaThreeByTwo == nil {
+            _multimediaThreeByTwo.url = ""
+            _multimediaThreeByTwo.format = ""
+        }
+        return _multimediaThreeByTwo
+    }
+    
  
     init(dict: Dictionary<String, Any>) {
         
@@ -56,11 +67,10 @@ class Article: NSObject {
         if let data = dict["published_date"] as? String {
             self._data = data
         }
+
+//        if let multimedia = dict["multimedia"] as? [Dictionary<String, Any>] {
+//            if let multimediaStandart = dict[""]
+//        }
         
-        if let date = dict["published_date"] as? Date {
-            self._date = date
-            print("\(date)")
-        }
-//        print("\(title)\n\(abstract)")
     }
 }

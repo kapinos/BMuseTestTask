@@ -22,13 +22,13 @@ class NewsAPI: NSObject {
         return URL(string: "\(NewsAPI.basePath)/\(NewsAPI.category).json?api-key=\(NewsAPI.key)")!
     }
 
-    @objc dynamic private(set) var artArray: [Article] = []
+    @objc dynamic private(set) var articles: [Article] = []
 
     func resetArticles() {
-        artArray = []
+        articles = []
     }
     
-    func fetchArt() {
+    func fetchArticles() {
         let url = path()
         let task = URLSession.shared.dataTask(with: url, completionHandler: { (data, response, error) in
             guard let data = data, error == nil else { return }
@@ -37,11 +37,13 @@ class NewsAPI: NSObject {
                 //print(str)
                 if let dict = str as? Dictionary<String, Any> {
                     if let list = dict["results"] as? [Dictionary<String, Any>] {
-                        self.artArray.removeAll()
+                        //self.artArray.removeAll()
+                        var articlesFromData: [Article] = []
                         for object in list {
                             let article = Article(dict: object)
-                            self.artArray.append(article)
+                            articlesFromData.append(article)
                         }
+                        self.articles = articlesFromData
                     }
                 }
             } catch {

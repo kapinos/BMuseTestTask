@@ -16,23 +16,20 @@ class ArticlesViewController: UIViewController {
     
     // MARK: - Properties
     private var token: NSKeyValueObservation?
-    //private let formatter = DateFormatter()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        //formatter.dateFormat = "MMM d, h:mm a"
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        token = NewsAPI.service.observe(\NewsAPI.artArray) { _, _ in
+        token = NewsAPI.service.observe(\NewsAPI.articles) { _, _ in
             DispatchQueue.main.async {
                 self.articlesTableView.reloadData()
-                //print(NewsAPI.service.artArray)
             }
         }
-        NewsAPI.service.fetchArt()
+        NewsAPI.service.fetchArticles()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -48,12 +45,12 @@ class ArticlesViewController: UIViewController {
 extension ArticlesViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return NewsAPI.service.artArray.count
+        return NewsAPI.service.articles.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ArticleCell", for: indexPath) as! ArticleTableViewCell
-        cell.configureCell(article: NewsAPI.service.artArray[indexPath.row])
+        cell.configureCell(article: NewsAPI.service.articles[indexPath.row])
         return cell
     }
 }

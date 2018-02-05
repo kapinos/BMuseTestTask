@@ -8,8 +8,17 @@
 
 import UIKit
 
-struct Multimedia {
-    var url: String
-    var format: String
-    var size: CGSize
+class Multimedia {
+    var url  = ""
+    var format = ""
+    
+    init(dict: Dictionary<String, Any>) {
+        if let url = dict["url"] as? String {
+            self.url = url
+        }
+        
+        if let format = dict["format"] as? String {
+            self.format = format
+        }
+    }
 }

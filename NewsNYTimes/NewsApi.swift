@@ -21,8 +21,8 @@ class NewsAPI: NSObject {
         articles = []
     }
     
-    func fetchArticles(by category: String) {
-        let url = URL(string: "\(NewsAPI.basePath)/\(category).json?api-key=\(NewsAPI.key)")!
+    func fetchArticles(by section: String) {
+        let url = URL(string: "\(NewsAPI.basePath)/\(section).json?api-key=\(NewsAPI.key)")!
         let task = URLSession.shared.dataTask(with: url, completionHandler: { (data, response, error) in
             guard let data = data, error == nil else { return }
             do {

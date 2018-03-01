@@ -11,22 +11,27 @@ import UIKit
 class ArticlesViewController: UIViewController {
     
     // MARK: -IBOutlets
-    @IBOutlet weak var categoriesSegmentedControl: UISegmentedControl!
     @IBOutlet weak var articlesTableView: UITableView!
     
     // MARK: - Properties
     private var token: NSKeyValueObservation?
+    private var customMenu = MenuView()
 
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        setUpMenu()
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        let category = getCategory(by: categoriesSegmentedControl.selectedSegmentIndex)
-        downloadAndShowArticles(by: category)
+        downloadAndShowArticles(by: "world")
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -34,9 +39,21 @@ class ArticlesViewController: UIViewController {
         token?.invalidate()
         NewsAPI.service.resetArticles()
     }
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        
+        coordinator.animate(alongsideTransition: { (context: UIViewControllerTransitionCoordinatorContext) in
+            self.setUpMenu()
+            
+            let navBarHeight: CGFloat = self.navigationController?.navigationBar.frame.size.height ?? 0
+            let statusBarHeight = UIApplication.shared.statusBarFrame.height
+            self.customMenu.updateFrames(size, navBarHeight, statusBarHeight)
+        }, completion: nil)
+    }
 }
 
-// MARK: - Navigation
+// MARK: -Navigation
 extension ArticlesViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "ArticleDetailsSegue" {
@@ -47,36 +64,26 @@ extension ArticlesViewController {
     }
 }
 
-// MARK: - Private
+// MARK: -Download Articles by Section
 private extension ArticlesViewController {
-    func downloadAndShowArticles(by category: String) {
+    func downloadAndShowArticles(by section: String) {
         token = NewsAPI.service.observe(\NewsAPI.articles) { _, _ in
             DispatchQueue.main.async {
                 self.articlesTableView.reloadData()
             }
         }
-        NewsAPI.service.fetchArticles(by: category)
-    }
-    
-    func getCategory(by index: Int) -> String {
-        var category = ""
-        switch index {
-        case 0: category = "home"
-        case 1: category = "opinion"
-        case 2: category = "world"
-        case 3: category = "science"
-        case 4: category = "politics"
-        default: category = "home"
-        }
-        return category
+        NewsAPI.service.fetchArticles(by: section)
     }
 }
 
-// MARK: - User Actions
+// MARK: -User Actions
 extension ArticlesViewController {
-    @IBAction func categoriesSelected(_ sender: UISegmentedControl) {
-        guard let selectedCategory = sender.titleForSegment(at: sender.selectedSegmentIndex) else { return }
-        downloadAndShowArticles(by: selectedCategory)
+    @IBAction func menuPressed(_ sender: UIBarButtonItem) {
+        if customMenu.isHidden {
+            customMenu.show()
+        } else {
+            customMenu.hide()
+        }
     }
 }
 
@@ -94,15 +101,56 @@ extension ArticlesViewController: UITableViewDataSource {
     }
 }
 
-
 // MARK: -UITableVIewDelegate
 extension ArticlesViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 60.0
-    }
+//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+//        return 90.0
+//    }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let article = NewsAPI.service.articles[indexPath.row]
         performSegue(withIdentifier: "ArticleDetailsSegue", sender: article)
     }
 }
+
+// MARK: -MenuViewDelegate
+extension ArticlesViewController: MenuViewDelegate {
+    func menuView(didSelectItem item: String) {        
+        downloadAndShowArticles(by: item)
+        self.title = String(describing: item.first!).uppercased() + item.dropFirst()
+        customMenu.isHidden = true
+    }
+}
+
+// MARK: -Menu
+private extension ArticlesViewController {
+    func setUpMenu() {
+        
+        let navBarHeight: CGFloat = self.navigationController?.navigationBar.frame.size.height ?? 0
+        let statusBarHeight = UIApplication.shared.statusBarFrame.height
+        let heightMenu = self.view.bounds.height - navBarHeight - statusBarHeight
+        
+        customMenu.frame = CGRect(origin: CGPoint(x: 0, y: (navBarHeight + statusBarHeight)),
+                                   size: CGSize(width: heightMenu/CGFloat(customMenu.amountButtons), height: heightMenu))
+        customMenu.backgroundColor = .clear
+        customMenu.delegate = self
+        customMenu.imagesNames = setNames()
+        customMenu.isHidden = true
+        
+        let window = UIApplication.shared.keyWindow!
+        window.addSubview(customMenu)
+    }
+    
+    func setNames() -> [String] {
+        var names: [String] = []
+        names.append("world.png")
+        names.append("business.png")
+        names.append("politics.png")
+        names.append("science.png")
+        names.append("sport.png")
+        names.append("movies.png")
+        names.append("food.png")
+        return names
+    }
+}
+

@@ -17,6 +17,7 @@
 		5DBDE9C2202887D200C8F856 /* Article.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DBDE9C1202887D200C8F856 /* Article.swift */; };
 		5DBDE9C820289B6C00C8F856 /* ArticleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DBDE9C720289B6C00C8F856 /* ArticleTableViewCell.swift */; };
 		5DBDE9CB2028C64C00C8F856 /* ArticleDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DBDE9CA2028C64C00C8F856 /* ArticleDetailsViewController.swift */; };
+		5DBFDB2A203D7DC5006BD233 /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DBFDB29203D7DC5006BD233 /* MenuView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		5DBDE9C1202887D200C8F856 /* Article.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Article.swift; sourceTree = "<group>"; };
 		5DBDE9C720289B6C00C8F856 /* ArticleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleTableViewCell.swift; sourceTree = "<group>"; };
 		5DBDE9CA2028C64C00C8F856 /* ArticleDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleDetailsViewController.swift; sourceTree = "<group>"; };
+		5DBFDB29203D7DC5006BD233 /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +70,7 @@
 				5DBDE9C920289B7000C8F856 /* Views */,
 				5DBDE9C52028990800C8F856 /* Controllers */,
 				5DBDE9B720286F9F00C8F856 /* NewsApi.swift */,
+				5DBFDB29203D7DC5006BD233 /* MenuView.swift */,
 				5DBDE9B62028678E00C8F856 /* Supporting Files */,
 			);
 			path = NewsNYTimes;
@@ -184,6 +187,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5DBDE9BE2028709400C8F856 /* Multimedia.swift in Sources */,
+				5DBFDB2A203D7DC5006BD233 /* MenuView.swift in Sources */,
 				5DBDE9B820286F9F00C8F856 /* NewsApi.swift in Sources */,
 				5DBDE9C2202887D200C8F856 /* Article.swift in Sources */,
 				5DBDE9CB2028C64C00C8F856 /* ArticleDetailsViewController.swift in Sources */,

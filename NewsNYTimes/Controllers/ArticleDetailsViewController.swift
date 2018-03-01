@@ -20,6 +20,12 @@ class ArticleDetailsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        articleTitleLabel.numberOfLines = 0
+        articleTextView.translatesAutoresizingMaskIntoConstraints = true
+        articleTextView.sizeToFit()
+        articleTextView.isScrollEnabled = false
+        
         showArticle()
     }
 }
@@ -43,11 +49,12 @@ private extension ArticleDetailsViewController {
         articleAuthor.text = art.byline
         
         if !art.multimediaThreeByTwo.url.isEmpty {
-            downloadImageByUrl(art.multimediaStandart.url)
+            downloadImageByUrl(art.multimediaThreeByTwo.url)
         }
     }
     
     private func downloadImageByUrl(_ standartFormatUrl: String) {
+//        if let url = NSURL(string: standartFormatUrl)! else { return }
         URLSession.shared.dataTask(with: NSURL(string: standartFormatUrl)! as URL, completionHandler: { (data, response, error) -> Void in
             if error != nil {
                 print(error ?? "error")

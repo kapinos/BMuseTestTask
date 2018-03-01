@@ -13,7 +13,7 @@ class NewsAPI: NSObject {
     static let service = NewsAPI()
 
     private static let basePath = "http://api.nytimes.com/svc/topstories/v2"
-    private static let key = "28cb01bb663c4efe9e5f18259c02f998"
+    private static let key = "a4ff65079b874bc48f6276c696756cb6"
     
     @objc dynamic private(set) var articles: [Article] = []
 
@@ -27,7 +27,7 @@ class NewsAPI: NSObject {
             guard let data = data, error == nil else { return }
             do {
                 let str = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
-                //print(str)
+//                print(str)
                 if let dict = str as? Dictionary<String, Any> {
                     if let list = dict["results"] as? [Dictionary<String, Any>] {
                         var articlesFromData: [Article] = []

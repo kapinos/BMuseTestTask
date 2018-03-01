@@ -16,15 +16,15 @@ protocol MenuViewDelegate: class {
 class MenuView: UIView {
     
     // MARK: - IBInspectable Properties
-    @IBInspectable var amountButtons: Int = 7
-    @IBInspectable var colorNormal: UIColor = UIColor(displayP3Red: 51/255.0,
-                                                      green: 51/255.0,
-                                                      blue: 76/255.0,
-                                                      alpha: 1)
-    @IBInspectable var colorSelected: UIColor = UIColor(displayP3Red: 214/255.0,
-                                                        green: 75/255.0,
-                                                        blue: 116/255.0,
-                                                        alpha: 1)
+    @IBInspectable var amountButtons = 7
+    @IBInspectable var colorNormal = UIColor(displayP3Red: 49/255.0,
+                                             green: 49/255.0,
+                                             blue: 50/255.0,
+                                             alpha: 1)
+    @IBInspectable var colorSelected = UIColor(displayP3Red: 76/255.0,
+                                               green: 76/255.0,
+                                               blue: 79/255.0,
+                                               alpha: 1)
     
     
     // MARK: - Properties
@@ -33,7 +33,7 @@ class MenuView: UIView {
     var imagesNames: [String] = []
     private var buttonsArray: [UIButton] = []
     private let durationAnimation = 0.3
-    private var buttonSize:CGFloat = -1.0
+    private var buttonSize: CGFloat = -1.0
     
     // MARK: - Inits
     required init?(coder aDecoder: NSCoder) {
@@ -81,11 +81,10 @@ extension MenuView {
     func updateFrames(_ size: CGSize, _ navBarHeight: CGFloat, _ statusBarHeight: CGFloat) {
         buttonSize = (size.height - navBarHeight - statusBarHeight) / CGFloat(amountButtons)
         
-        var i = 0
-        for case let button as UIButton in self.subviews {
+        for i in 0..<self.subviews.count {
+            let button = self.subviews[i]
             button.frame = CGRect(origin: CGPoint(x: 0, y: buttonSize * CGFloat(i)),
                                   size: CGSize(width: buttonSize, height: buttonSize))
-            i += 1
         }
     }
     
@@ -99,7 +98,11 @@ extension MenuView {
         }
     }
     
-    func hide() {
+    func hide(isAnimated: Bool = true) {
+        if !isAnimated {
+            self.isHidden = true
+        }
+        
         let translate = CATransform3DMakeTranslation(-buttonSize/2.0, 0, 0)
         let rotation = CATransform3DRotate(translate, 90.0*CGFloat(Double.pi)/180.0, 0, 0.9, 0)
         

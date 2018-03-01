@@ -31,13 +31,15 @@ class ArticleTableViewCell: UITableViewCell {
 
 private extension ArticleTableViewCell {
     func downloadImageByUrl(_ standartFormatUrl: String) {
-        URLSession.shared.dataTask(with: NSURL(string: standartFormatUrl)! as URL, completionHandler: { (data, response, error) -> Void in
+        guard let url = URL(string: standartFormatUrl) else { return }
+        URLSession.shared.dataTask(with: url, completionHandler: { (data, response, error) -> Void in
             if error != nil {
                 print(error ?? "error")
                 return
             }
             DispatchQueue.main.async(execute: { [weak self] () -> Void in
-                self?.articlePhoto.image = UIImage(data: data!)
+                guard let data = data else { return }
+                self?.articlePhoto.image = UIImage(data: data)
             })
         }).resume()
     }

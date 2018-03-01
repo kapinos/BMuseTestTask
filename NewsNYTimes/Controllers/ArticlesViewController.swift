@@ -10,28 +10,23 @@ import UIKit
 
 class ArticlesViewController: UIViewController {
     
-    // MARK: -IBOutlets
+    // MARK: - IBOutlets
     @IBOutlet weak var articlesTableView: UITableView!
     
     // MARK: - Properties
     private var token: NSKeyValueObservation?
     private var customMenu = MenuView()
+    private var selectedCategory = "world"
 
     // MARK: - Lifecycle
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         setUpMenu()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
-        downloadAndShowArticles(by: "world")
+        downloadAndShowArticles(by: selectedCategory)
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -53,7 +48,7 @@ class ArticlesViewController: UIViewController {
     }
 }
 
-// MARK: -Navigation
+// MARK: - Navigation
 extension ArticlesViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "ArticleDetailsSegue" {
@@ -64,7 +59,7 @@ extension ArticlesViewController {
     }
 }
 
-// MARK: -Download Articles by Section
+// MARK: - Download Articles by Section
 private extension ArticlesViewController {
     func downloadAndShowArticles(by section: String) {
         token = NewsAPI.service.observe(\NewsAPI.articles) { _, _ in
@@ -76,7 +71,7 @@ private extension ArticlesViewController {
     }
 }
 
-// MARK: -User Actions
+// MARK: - User Actions
 extension ArticlesViewController {
     @IBAction func menuPressed(_ sender: UIBarButtonItem) {
         if customMenu.isHidden {
@@ -87,7 +82,7 @@ extension ArticlesViewController {
     }
 }
 
-// MARK: -UITableViewDataSource
+// MARK: - UITableViewDataSource
 extension ArticlesViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -95,34 +90,39 @@ extension ArticlesViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ArticleCell", for: indexPath) as! ArticleTableViewCell
-        cell.configureCell(article: NewsAPI.service.articles[indexPath.row])
-        return cell
+        if let cell = tableView.dequeueReusableCell(withIdentifier: "ArticleCell", for: indexPath) as? ArticleTableViewCell {
+            cell.articlePhoto.image = UIImage(named: "no-photo.png")
+            cell.configureCell(article: NewsAPI.service.articles[indexPath.row])
+            return cell
+        }
+        return UITableViewCell()
     }
 }
 
-// MARK: -UITableVIewDelegate
+// MARK: - UITableVIewDelegate
 extension ArticlesViewController: UITableViewDelegate {
-//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        return 90.0
-//    }
-    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let article = NewsAPI.service.articles[indexPath.row]
         performSegue(withIdentifier: "ArticleDetailsSegue", sender: article)
+        customMenu.hide(isAnimated: false)
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        customMenu.hide(isAnimated: false)
     }
 }
 
-// MARK: -MenuViewDelegate
+// MARK: - MenuViewDelegate
 extension ArticlesViewController: MenuViewDelegate {
     func menuView(didSelectItem item: String) {        
         downloadAndShowArticles(by: item)
+        selectedCategory = item
         self.title = String(describing: item.first!).uppercased() + item.dropFirst()
         customMenu.isHidden = true
     }
 }
 
-// MARK: -Menu
+// MARK: - Menu
 private extension ArticlesViewController {
     func setUpMenu() {
         
@@ -147,7 +147,7 @@ private extension ArticlesViewController {
         names.append("business.png")
         names.append("politics.png")
         names.append("science.png")
-        names.append("sport.png")
+        names.append("sports.png")
         names.append("movies.png")
         names.append("food.png")
         return names

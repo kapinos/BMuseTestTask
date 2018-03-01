@@ -21,7 +21,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		5DBDE9A12028678400C8F856 /* NewsNYTimes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NewsNYTimes.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		5DBDE9A12028678400C8F856 /* NYTimes News.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "NYTimes News.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5DBDE9A42028678400C8F856 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5DBDE9A92028678400C8F856 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		5DBDE9AB2028678400C8F856 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -58,7 +58,7 @@
 		5DBDE9A22028678400C8F856 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				5DBDE9A12028678400C8F856 /* NewsNYTimes.app */,
+				5DBDE9A12028678400C8F856 /* NYTimes News.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -117,9 +117,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		5DBDE9A02028678400C8F856 /* NewsNYTimes */ = {
+		5DBDE9A02028678400C8F856 /* NYTimes News */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 5DBDE9B32028678400C8F856 /* Build configuration list for PBXNativeTarget "NewsNYTimes" */;
+			buildConfigurationList = 5DBDE9B32028678400C8F856 /* Build configuration list for PBXNativeTarget "NYTimes News" */;
 			buildPhases = (
 				5DBDE99D2028678400C8F856 /* Sources */,
 				5DBDE99E2028678400C8F856 /* Frameworks */,
@@ -129,9 +129,9 @@
 			);
 			dependencies = (
 			);
-			name = NewsNYTimes;
+			name = "NYTimes News";
 			productName = BMuseTestTask;
-			productReference = 5DBDE9A12028678400C8F856 /* NewsNYTimes.app */;
+			productReference = 5DBDE9A12028678400C8F856 /* NYTimes News.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -150,7 +150,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 5DBDE99C2028678400C8F856 /* Build configuration list for PBXProject "NewsNYTimes" */;
+			buildConfigurationList = 5DBDE99C2028678400C8F856 /* Build configuration list for PBXProject "NYTimes News" */;
 			compatibilityVersion = "Xcode 8.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -163,7 +163,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				5DBDE9A02028678400C8F856 /* NewsNYTimes */,
+				5DBDE9A02028678400C8F856 /* NYTimes News */,
 			);
 		};
 /* End PBXProject section */
@@ -359,7 +359,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		5DBDE99C2028678400C8F856 /* Build configuration list for PBXProject "NewsNYTimes" */ = {
+		5DBDE99C2028678400C8F856 /* Build configuration list for PBXProject "NYTimes News" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5DBDE9B12028678400C8F856 /* Debug */,
@@ -368,7 +368,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		5DBDE9B32028678400C8F856 /* Build configuration list for PBXNativeTarget "NewsNYTimes" */ = {
+		5DBDE9B32028678400C8F856 /* Build configuration list for PBXNativeTarget "NYTimes News" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5DBDE9B42028678400C8F856 /* Debug */,

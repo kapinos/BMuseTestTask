@@ -9,6 +9,7 @@
 import UIKit
 
 class ArticleDetailsViewController: UIViewController {
+    
     // MARK: - IBOutlets
     @IBOutlet weak var articleTitleLabel: UILabel!
     @IBOutlet weak var articleImageView: UIImageView!
@@ -22,7 +23,6 @@ class ArticleDetailsViewController: UIViewController {
         super.viewDidLoad()
         
         articleTitleLabel.numberOfLines = 0
-        articleTextView.translatesAutoresizingMaskIntoConstraints = true
         articleTextView.sizeToFit()
         articleTextView.isScrollEnabled = false
         
@@ -54,14 +54,15 @@ private extension ArticleDetailsViewController {
     }
     
     private func downloadImageByUrl(_ standartFormatUrl: String) {
-//        if let url = NSURL(string: standartFormatUrl)! else { return }
-        URLSession.shared.dataTask(with: NSURL(string: standartFormatUrl)! as URL, completionHandler: { (data, response, error) -> Void in
+        guard let url = URL(string: standartFormatUrl) else { return }
+        URLSession.shared.dataTask(with: url, completionHandler: { (data, response, error) -> Void in
             if error != nil {
                 print(error ?? "error")
                 return
             }
             DispatchQueue.main.async(execute: { [weak self] () -> Void in
-                self?.articleImageView.image = UIImage(data: data!)
+                guard let data = data else { return }
+                self?.articleImageView.image = UIImage(data: data)
             })
         }).resume()
     }
